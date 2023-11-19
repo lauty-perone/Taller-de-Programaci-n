@@ -1,0 +1,87 @@
+programa ejericio4
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+  fin
+  
+areas
+  area1: AreaP(9,9,9,9)
+  area2: AreaP(9,10,9,10)
+  area3: AreaP(9,11,9,11)
+  area4: AreaP(9,12,9,12)
+  areaJ: AreaP(1,1,1,1)
+  area5: AreaPC(10,10,10,10)
+  area6: AreaPC(11,11,11,11)
+robots
+  robot tipo1
+  variables
+    sigo:boolean
+    av,ca,flor:numero
+  comenzar
+    av:=PosAv
+    ca:=PosCa
+    RecibirMensaje(sigo,jefe)
+    mientras(sigo=V)
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      si(HayFlorEnLaEsquina)
+        tomarFlor
+        LiberarEsquina(10,10)
+        BloquearEsquina(11,11)
+        Pos(11,11)
+        DepositarFlor
+        Pos(PosAv,PosCa)
+        LiberarEsquina(11,11)
+        Pos(PosAv,PosCa)
+      sino
+        sigo:=F
+      EnviarMensaje(sigo,jefe)
+  fin
+  
+  robot jefe
+  variables
+    ok:boolean
+    flores:numero
+  comenzar
+    flores:=0
+    ok:=V
+    mientras(ok=V)
+      EnviarMensaje(ok,robot1)
+      EnviarMensaje(ok,robot2)
+      EnviarMensaje(ok,robot3)
+      EnviarMensaje(ok,robot4)
+      repetir 4
+        RecibirMensaje(ok,*)
+    Pos(11,11)
+    juntarFlores(flores)
+    Informar(flores)
+    Pos(1,1)
+  fin
+variables
+  robot1,robot2,robot3,robot4:tipo1
+  robotJefe: jefe
+  
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+  AsignarArea(robot4,area4)
+  AsignarArea(robotJefe,areaJ)
+  AsignarArea(robot1,area5)
+  AsignarArea(robot2,area5)
+  AsignarArea(robot3,area5)
+  AsignarArea(robot4,area5)
+  AsignarArea(robotJefe,area5)
+  AsignarArea(robot1,area6)
+  AsignarArea(robot2,area6)
+  AsignarArea(robot3,area6)
+  AsignarArea(robot4,area6)
+  Iniciar(robot1,9,9)
+  Iniciar(robot2,9,10)
+  Iniciar(robot3,9,11)
+  Iniciar(robot4,9,12)
+  Iniciar(robotJefe,1,1)
+fin

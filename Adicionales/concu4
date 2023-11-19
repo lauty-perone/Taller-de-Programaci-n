@@ -1,0 +1,86 @@
+programa parcial
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+  fin
+  proceso juntarPapeles(ES papeles:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:=papeles+1
+  fin
+areas
+  area1: AreaP(5,1,5,10)
+  area2: AreaP(6,1,6,10)
+  area3: AreaP(7,1,7,10)
+  areaJ: AreaP(1,1,1,1)
+  
+robots
+  robot recolector
+  variables
+    av,id,flores,papeles:numero
+  comenzar
+    flores:=0
+    papeles:=0
+    RecibirMensaje(id,jefe)
+    repetir 9
+      tomarFlor(flores)
+      mover
+    tomarFlor(flores)
+    EnviarMensaje(id,jefe)
+    RecibirMensaje(av,jefe)
+    Pos(av,1)
+    repetir 9
+      tomarPapel(papeles)
+      mover
+    tomarPapel(papeles)
+    total:=papeles+flores
+    EnviarMensaje(id,jefe)
+    EnviarMensaje(total,jefe)
+  fin
+  
+  robot fiscalizador
+  variables
+    max,cant,id,idMax:numero
+  comenzar
+    max:=-1
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    EnviarMensaje(3,robot3)
+    repetir 3
+      RecibirMensaje(id,*)
+      si(id=1)
+        EnviarMensaje(5,robot1)
+      sino
+        si(id=2)
+          EnviarMensaje(6,robot2)
+        sino
+          EnviarMensaje(7,robot3)
+    repetir 3
+      RecibirMensaje(id,*)
+      si(id=1)
+         RecibirMensaje(cant,robot1)
+      sino
+        si(id=2)
+          RecibirMensaje(cant,robot2)
+        sino
+          RecibirMensaje(cant,robot3)
+      si(cant>max)
+        idMax:=id
+  fin
+variables
+  robot1,robot2,robot3:recolector
+  jefe:fiscalizador
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+  AsignarArea(jefe,areaJ)
+  Iniciar(robot1,5,1)
+  Iniciar(robot2,6,1)
+  Iniciar(robot3,7,1)
+  Iniciar(jefe,1,1)
+fin

@@ -1,0 +1,21 @@
+{Una cadena de supermercados necesita procesar su facturacion para enviar un regalo de fin de año a sus mejores clientes.
+Entregara para el mes de octubre un premio diario al cliente que hizo la compra de mayor monto.
+
+Se dispone de una estructura que almacena las ventas de octubre agrupadas por numero de sucursal(de 1 a 20). Para cada sucursal, las ventas se
+encuentran ordenadas por dia del mes. Por cada venta se conoce el dia,numero de factura, dni del cliente y monto.
+
+Ademas se dispone de un vector desordenado con la informacion personal de 5000 clientes.De cada cliente se conoce el dni,el email y telefono
+
+Implemente un program que:
+
+Ordene por dni, los elementos del vector de clientes que se dispone.Este ordenamiento es necesario para obtener informacion del cliente
+en el siguiente inciso con mayor eficiencia.
+Reciba la estructura con las ventas y, usando la tecnica de merge, imprima en pantalla para cada dia del mes, el numero de factura ganadora,
+el dni y el telefono del cliente correspondiente.Por cada dia,la factura ganadora es aquella con mayor monto.
+La busqueda del cliente en el vector de informacion personal debe implementarse de formar recursiva.
+Si el clinte no esta en el vector se debera informar el dia y "Premio vacante"
+
+NOTA: En cada sucursal se pueden haber realizado mas de una venta en el mismo dia}
+
+program super;
+

@@ -1,0 +1,86 @@
+programa ejercicio3
+procesos
+  proceso maximo(E flores:numero; E id:numero; ES idMax:numero; ES max:numero)
+  comenzar
+    si(flores>max)
+      idMax:=id
+      max:=flores
+  fin
+  
+areas
+  area1: AreaC(2,2,10,10)
+  areaJ: AreaP(1,1,1,1)
+  areaR1: AreaP(2,1,2,1)
+  areaR2: AreaP(3,1,3,1)
+  areaR3: AreaP(4,1,4,1)
+  areaR4: AreaP(5,1,5,1)
+  
+robots
+  robot tipo1
+  variables
+    quienSoy,avOrig,caOrig,av,ca,flores:numero
+  comenzar
+    flores:=0
+    avOrig:=PosAv
+    caOrig:= PosCa
+    RecibirMensaje(quienSoy,robotJ)
+    RecibirMensaje(av,robotJ)
+    RecibirMensaje(ca,robotJ)
+    mientras(HayFlorEnLaEsquina)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      tomarFlor
+      Pos(avOrig,caOrig)
+      LiberarEsquina(av,ca)
+      flores:=flores+1
+    EnviarMensaje(quienSoy,robotJ)
+    EnviarMensaje(flores,robotJ)
+  fin
+  
+  robot jefe
+  variables
+    flores,max,idMax,id,av,ca:numero
+  comenzar
+    max:=-1
+    Random(av,2,10)
+    Random(ca,2,10)
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    EnviarMensaje(3,robot3)
+    EnviarMensaje(4,robot4)
+    EnviarMensaje(av,robot1)
+    EnviarMensaje(av,robot2)
+    EnviarMensaje(av,robot3)
+    EnviarMensaje(av,robot4)
+    EnviarMensaje(ca,robot1)
+    EnviarMensaje(ca,robot2)
+    EnviarMensaje(ca,robot3)
+    EnviarMensaje(ca,robot4)
+    repetir 4
+      RecibirMensaje(id,*)
+      RecibirMensaje(flores,*)
+      maximo(flores,id,idMax,max)
+    Informar(idMax)
+    Informar(max)
+  fin
+    
+variables
+  robot1,robot2,robot3,robot4:tipo1
+  robotJ:jefe
+
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area1)
+  AsignarArea(robot3,area1)
+  AsignarArea(robot4,area1)
+  AsignarArea(robot1,areaR1)
+  AsignarArea(robot2,areaR2)
+  AsignarArea(robot3,areaR3)
+  AsignarArea(robot4,areaR4)
+  AsignarArea(robotJ,areaJ)
+  Iniciar(robotJ,1,1)
+  Iniciar(robot1,2,1)
+  Iniciar(robot2,3,1)
+  Iniciar(robot3,4,1)
+  Iniciar(robot4,5,1)
+fin

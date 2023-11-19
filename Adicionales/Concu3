@@ -1,0 +1,113 @@
+programa parcial
+procesos
+  proceso juntarFlores()
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  
+  proceso juntarPapeles()
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  
+  proceso esquinaPapel(ES tienenPapel:numero)
+  comenzar
+    si(HayPapelEnLaEsquina)
+      tienenPapel:=tienenPapel+1
+  fin
+  
+areas
+  areaC1Pri: AreaP(25,1,25,24)
+  areaC1Seg: AreaP(25,26,25,100)
+  areaC2Pri: AreaP(35,1,35,24)
+  areaC2Seg: AreaP(35,26,35,100)
+  areaLPri: AreaP(1,25,24,25)
+  areaLSeg: AreaP(26,25,34,25)
+  areaLTer: AreaP(36,25,100,25)
+  areaCom1: AreaPC(25,25,25,25)
+  areaCom2: AreaPC(35,25,35,25)
+  areaJ: AreaP(1,1,1,1)
+  
+robots
+  robot corredor
+  variables
+    pasos,cantP,quienSoy:numero
+  comenzar
+    RecibirMensaje(quienSoy,robotJefe)
+    cantP:=0
+    mientras(PosCa<=50)
+      Random(pasos,1,10)
+      repetir pasos
+        esquinaPapel(cantP)
+        si(PosCa=24)
+          BloquearEsquina(PosAv,25)
+        sino
+          si(PosCa=26)
+            LiberarEsquina(PosAv,25)
+        mover
+      esquinaPapel(cantP)
+    EnviarMensaje(quienSoy,robotJefe)
+    EnviarMensaje(cantP,robotJefe)
+  fin
+  
+  robot limpiador
+  variables
+    av:numero
+  comenzar
+    
+    derecha
+    repetir 99
+      juntarFlores
+      juntarPapeles
+      si(PosAv=24)|(PosAv=34)
+        BloquearEsquina(PosAv+1,25)
+      sino
+        si(PosAv=26)|(PosAv=36)
+          LiberarEsquina(PosAv-1,25)
+      mover
+      juntarFlores
+      juntarPapeles
+  fin
+  
+  robot jefe
+  variables
+    cant,id,pri:numero
+  comenzar
+    pri:=-1
+    EnviarMensaje(1,corredor1)
+    EnviarMensaje(2,corredor2)
+    repetir 2
+      RecibirMensaje(id,*)
+      si(id=1)
+        RecibirMensaje(cant,corredor1)
+      sino
+        RecibirMensaje(cant,corredor2)
+      si(pri=-1)
+        pri:=cant
+    Informar(id,pri)
+  fin
+  
+variables 
+  corredor1,corredor2:corredor
+  robotLimpiador:limpiador
+  robotJefe:jefe
+comenzar 
+  AsignarArea(corredor1,areaC1Pri)
+  AsignarArea(corredor1,areaC1Seg)
+  AsignarArea(corredor1,areaCom1)
+  AsignarArea(corredor2,areaC2Pri)
+  AsignarArea(corredor2,areaC2Seg)
+  AsignarArea(corredor2,areaCom2)
+  AsignarArea(robotLimpiador,areaLPri)
+  AsignarArea(robotLimpiador,areaLSeg)
+  AsignarArea(robotLimpiador,areaLTer)
+  AsignarArea(robotLimpiador,areaCom1)
+  AsignarArea(robotLimpiador,areaCom2)
+  AsignarArea(robotJefe,areaJ)
+  Iniciar(corredor1,25,1)
+  Iniciar(corredor2,35,1)
+  Iniciar(robotLimpiador,1,25)
+  Iniciar(robotJefe,1,1)
+fin

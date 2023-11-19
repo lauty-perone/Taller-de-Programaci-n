@@ -1,0 +1,94 @@
+programa parcial
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+  fin
+  
+  proceso juntarPapeles(ES papeles:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:=papales+1
+  fin
+  
+  
+areas
+  area1: AreaP(1,1,1,1)
+  area2: AreaP(2,1,2,1)
+  area3: AreaP(3,1,3,1)
+  area4: AreaP(4,1,4,1)
+  area5: AreaP(5,1,5,1)
+  areaJ: AreaP(6,1,6,1)
+  cuadrante: AreaPC (5,5,12,12)
+robots
+  robot florero
+  variables
+    avO,caO,ca,av,flores:numero
+  comenzar
+    av0:=PosAv
+    caO:=PosCa
+    flores:=0
+    repetir 2
+      Random(av,5,12)
+      Random(ca,5,12)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      juntarFlores(flores)
+      Pos(avO,caO)
+      LiberarEsquina(av,ca)
+    EnviarMensaje(flores,robotJefe)  
+  fin
+  
+  robot papelero
+  variables
+    av,ca,avO,caOpapeles:numero
+  comenzar
+    papeles:=0
+    repetir 4
+      Random(av,5,12)
+      Random(ca,5,12)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      juntarPapeles(papeles)
+      Pos(avO,caO)
+      LiberarEsquina(av,ca)
+    EnviarMensaje(papeles,robotJefe) 
+  fin
+  
+  robot jefe
+  variables
+    cant,total:numero
+  comenzar
+    total:=0
+    repetir 5
+      RecibirMensaje(cant,*)
+      total:=total+cant
+    Informar(total)
+  fin
+  
+variables
+  robot1,robot2,robo3:florero
+  robot4,robot5:papelero
+  robotJefe: jefe
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+  AsignarArea(robot4,area4)
+  AsignarArea(robot5,area5)
+  AsignarArea(robotJefe,areaJ)
+  AsignarArea(robot1,cuadrante)
+  AsignarArea(robot2,cuadrante)
+  AsignarArea(robot3,cuadrante)
+  AsignarArea(robot4,cuadrante)
+  AsignarArea(robot5,cuadrante)
+  Iniciar(robot1,1,1)
+  Iniciar(robot2,2,1)
+  Iniciar(robot3,3,1)
+  Iniciar(robot4,4,1)
+  Iniciar(robot5,5,1)
+  Iniciar(robotJefe,6,1)
+fin

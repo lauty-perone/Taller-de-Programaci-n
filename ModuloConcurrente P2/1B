@@ -1,0 +1,84 @@
+programa ejercicio1
+procesos 
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+  fin
+  
+  proceso calcular(E aux1:numero; E floresAux1:numero; E aux2:numero; E floresAux2:numero)
+  variables
+    diferencia:numero
+    ganador:numero
+  comenzar
+    
+    si(floresAux1>floresAux2)
+      diferencia:=floresAux1 - floresAux2
+      ganador:=aux1
+    sino
+      diferencia:=floresAux2 - floresAux1
+      ganador:=aux2
+       
+    Informar('el_ganador_es_el_robot_',ganador)
+    Informar('la_diferencia_es',diferencia)
+  
+  fin
+
+areas 
+  area1: AreaP(1,1,1,10)
+  area2: AreaP(2,11,2,20)
+  areaJ:AreaP(2,1,2,1)
+  
+robots
+  robot tipo1  
+  variables
+    flores:numero
+    flor2:numero
+  comenzar
+    flores:=0
+    repetir 9
+      juntarFlores(flores)
+      mover
+    EnviarMensaje(flores, robot1)
+    RecibirMensaje(flor2,robot2)
+    si (flores> flor2)
+      Informar('robot2',flores - flor2)
+  fin
+  robot fiscalizador
+  variables
+    aux1,aux2,floresAux1,floresAux2:numero
+  comenzar
+  
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    
+    RecibirMensaje(aux1,*)
+    
+    repetir 2
+      si (aux1=1)
+        RecibirMensaje(floresAux1,robot1)
+        RecibirMensaje(aux2,robot2)
+        RecibirMensaje(floresAux2,robot2)
+      sino
+        RecibirMensaje(floresAux2,robot2)
+        RecibirMensaje(aux1,robot1)
+        RecibirMensaje(floresAux1,robot1)
+    
+    calcular(aux1,floresAux1,aux2,floresAux2)
+  fin
+
+
+variables
+  robot1:tipo1
+  robot2:tipo1
+  robotJ:fiscalizador
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robotJ,areaJ)
+  Iniciar(robot1,1,1)
+  Iniciar(robot2,2,11)
+  Iniciar(robtoJ,2,1)
+fin
+    

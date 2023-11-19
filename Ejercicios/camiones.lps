@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="1">
+      <Unit0>
+        <Filename Value="camiones.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="camiones"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="36"/>
+        <CursorPos X="23" Y="56"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="4" HistoryIndex="3">
+      <Position1>
+        <Filename Value="camiones.lpr"/>
+        <Caret Line="142" Column="40" TopLine="135"/>
+      </Position1>
+      <Position2>
+        <Filename Value="camiones.lpr"/>
+        <Caret Line="37" Column="14" TopLine="19"/>
+      </Position2>
+      <Position3>
+        <Filename Value="camiones.lpr"/>
+        <Caret Line="15" Column="20" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="camiones.lpr"/>
+        <Caret Line="81" Column="18" TopLine="64"/>
+      </Position4>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

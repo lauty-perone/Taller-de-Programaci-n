@@ -1,0 +1,81 @@
+programa ejercicio6
+procesos 
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+  fin
+  
+  proceso juntarPapeles(ES papeles:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      papeles:=papeles+1
+  fin
+  
+areas
+  area1: AreaC(2,2,16,16)
+  areaJ: AreaP(1,1,1,1)
+  primero: AreaP(1,20,1,100)
+  segundo: AreaP(1,21,1,100)
+  tercero: AreaP(1,22,1,100)
+  
+  
+robots
+  robot tipo1
+  variables
+  
+  comenzar
+  
+  fin
+  
+  robot tipo2
+  variables
+  
+  comenzar
+  
+  fin
+  
+  robot tipo3
+  variables
+  
+  comenzar
+  
+  fin
+  robot robotJefe
+  variables
+    id1,id2,id3:numero
+  comenzar
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    EnviarMensaje(3,robot3)
+    RecibirMensaje(id1,*)
+    RecibirMensaje(id2,*)
+    RecibirMensaje(id3,*)
+    si(id1=1)
+      
+  fin
+variables
+  robot1,robot2,robot3:tipo1
+  jefe: robotJefe
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area1)
+  AsignarArea(robot3,area1)
+  AsignarArea(jefe,areaJ)
+  AsignarArea(robot1,primero)
+  AsignarArea(robot2,primero)
+  AsignarArea(robot3,primero)
+  AsignarArea(robot1,segundo)
+  AsignarArea(robot2,segundo)
+  AsignarArea(robot3,segundo)
+  AsignarArea(robot1,tercero)
+  AsignarArea(robot2,tercero)
+  AsignarArea(robot3,tercero)
+  Iniciar(robot1,2,2)
+  Iniciar(robot2,5,5)
+  Iniciar(robot3,9,9)
+  Iniciar(jefe,1,1)
+  
+fin

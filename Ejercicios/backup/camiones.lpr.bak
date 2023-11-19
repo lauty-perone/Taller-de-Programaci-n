@@ -1,0 +1,170 @@
+{Una ciudad necesita un sistema para administrar la limpieza de sus esquinas. Para ello, el sistema necesita un módulo que
+lea la información de cada esquina que se limpia: número de calle, número de avenida, cantidad de objetos recolectados y número
+identificatorio del camión (1..10) que se encargó de la limpieza de la esquina. A partir de esa información,
+debe generar una estructura que almacene las esquinas agrupadas por número de camión. Para cada camión,
+las esquinas deben ordenarse por número de avenida. La lectura finaliza con el número de camión 0, el cual no se procesa.
+
+Se pide implementar un programa en Pascal que incluya:
+
+a) Un módulo Cargar que (de manera aleatoria) genere datos de las esquinas y los almacene en una estructura adecuada.
+
+b) Un módulo que reciba la estructura generada en a) y (usando merge acumulador) obtenga para cada avenida el total de
+objetos recolectados (entre todos los camiones). Genere un ABB que contenga número de avenida y el total de objetos recolectados
+en la avenida, ordenado por total de objetos recolectados.}
+
+program camionnones;
+
+const
+  dimF=10;
+
+type
+  subRango=1..dimF;
+
+  esquina=record
+    ca:integer;
+    av:integer;
+    cantObj:integer;
+    numCamion:subRango;
+  end;
+
+  lista=^nodo;
+
+  nodo=record
+    dato:esquina;
+    sig:lista;
+  end;
+
+  camiones = array [1..dimF]of lista;
+
+  avenida=record
+    num:subRango;
+    objReco:integer;
+  end;
+
+  arbol=^nodoArbol;
+
+  nodoArbol=record
+    dato:avenida;
+    HI:arbol;
+    HD:arbol;
+  end;
+
+procedure cargarCamiones(var c:camiones);
+  procedure leerEsquina(var e:esquina);
+  begin
+     e.numCamion:=Random(10);
+     if(e.numCamion<>0)then begin
+       e.av:=Random(50);
+       e.ca:=Random(50);
+       e.cantObj:=Random(30);
+     end;
+  end;
+  procedure inicializar(var c:camiones);
+  var
+   i:integer;
+  begin
+     for i:=1 to dimF do
+        c[i]:=nil;
+  end;
+  procedure insertarOrdenado(l:lista; e:esquina);
+  var
+   nue,ant,act:lista;
+  begin
+    new(nue);
+    nue^.dato:=e;
+    ant:=l; act:=l;
+    while(act<>nil)and (act^.dato.av<e.av)do begin
+      ant:=act;
+      act:=act^.sig;
+    end;
+    if(ant=act)then
+           l:=nue
+         else
+             ant^.sig:=nue;
+    nue^.sig:=act;
+  end;
+
+var
+ i:integer;
+ l:lista;
+ e:esquina;
+begin
+   inicializar(c);
+   for i:=1 to dimF do begin
+     leerEsquina(e);
+     while(e.numCamion<>0)do begin
+       insertarOrdenado(c[i],e);
+       leerEsquina(e);
+     end;
+   end;
+end;
+
+procedure merge(c:camiones; var a:arbol);
+  procedure crearArbol(var a:arbol; total:integer;av:subRango);
+  begin
+    if(a=nil)then begin
+      new(a);
+      a^.dato.num:=av;
+      a^.dato.objReco:=total;
+      a^.HI:=nil;
+      a^.HD:=nil
+    end
+    else
+       if(total<a^.dato.objReco)then
+              crearArbol(a^.HI,total,av)
+          else
+              crearArbol(a^.HD,total,av);
+  end;
+  procedure minimo(var c:camiones;var cant:integer;var minAv:subRango);
+  var
+   indiceMin,i:subRango;
+  begin
+    indiceMin:=-1;
+    minAv:=10;
+    for i:=1 to dimF do
+       if(c[i]<>nil)then
+              if(c[i]^.dato.av<=minAv)then begin
+                 indiceMin:=i;
+                 minAv:=c[i]^.dato.av;
+              end;
+    if(indiceMin<>-1)then begin
+       minAv:=c[indiceMin]^.dato.av;
+       cant:=c[indiceMin]^.dato.cantObj;
+       c[indiceMin]:=c[indiceMin]^.sig;
+    end;
+  end;
+
+var
+  total,cant:integer;
+  minAv,actualAv:subRango;
+begin
+  a:=nil;
+  minimo(c,cant,minAv);
+  while(minAv<>10)do begin
+    actualAv:=minAv;
+    total:=0;
+    while(minAv<>10)and(actualAv=minAv)do begin
+      total:=total+cant;
+      minimo(c,cant,minAv);
+    end;
+    crearArbol(a,total,actualAv)
+  end;
+end;
+procedure imprimirArbol(a:arbol);
+begin
+  if(a<>nil)then begin
+     imprimirArbol(a^.HI);
+     writeln('Avenida: ', a^.dato.num, 'Objetos recojidos: ', a^.dato.objReco);
+     imprimirArbol(a^.HD);
+  end;
+end;
+
+var
+ c:camiones;
+ a:arbol;
+begin
+   cargarCamiones(c);
+   merge(c,a);
+   imprimirArbol(a);
+
+end.
